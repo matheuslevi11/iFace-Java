@@ -13,6 +13,9 @@ public class Menu {
             System.out.println("[1] Apelido");
             System.out.println("[2] Login");
             System.out.println("[3] Senha");
+            System.out.println("[4] Hobbie");
+            System.out.println("[5] Idade");
+            System.out.println("[6] Local");
             System.out.println("[99] Sair da edição");
             
             choice = input.nextInt();
@@ -34,6 +37,24 @@ public class Menu {
                 System.out.println("Digite a nova senha:");
                 String password = input.next().trim();
                 u.editPassword(password);
+            }
+            else if (choice == 4)
+            {
+                System.out.println("Digite o novo hobbie:");
+                String hobbie = input.next().trim();
+                u.editHobbie(hobbie);
+            }
+            else if (choice == 5)
+            {
+                System.out.println("Digite a nova idade:");
+                int idade = input.nextInt();
+                u.editIdade(idade);
+            }
+            else if (choice == 6)
+            {
+                System.out.println("Digite o novo local:");
+                String local = input.next().trim();
+                u.editLocal(local);
             }
             else if (choice == 99)
             {
@@ -75,6 +96,8 @@ public class Menu {
             {
                 System.out.println("[3] Fazer logout");
                 System.out.println("[4] Editar Perfil");
+                System.out.println("[5] Adicionar Amigo");
+                System.out.println("[6] Ver solicitações de amizade");
             }
             System.out.println("[99] Sair");
             
@@ -91,6 +114,14 @@ public class Menu {
                     u = null;
             else if (choice == 4)
                 edit_submenu(u);
+            else if (choice == 5)
+            {
+                System.out.println("Digite o nome do amigo que deseja adicionar:");
+                String nickname = input.next().trim();
+                u.friendRequest(nickname);
+            }
+            else if (choice == 6)
+                u.updateFriendList();
             else if (choice == 99)
                 break;
         }

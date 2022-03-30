@@ -15,14 +15,15 @@ editar atributos de seu perfil. Ele deve poder
 modificar qualquer atributo do perfil ou preencher
 um atributo inexistente.
 
-## Funcionalidades a implementar
-
 ### 3. Adição de Amigos
 Permita a um usuário cadastrado do iFace adicionar
 outro usuário como amigo, o que faz o sistema
 enviar-lhe um convite. O relacionamento só é
 efetivado quando o outro usuário o adicionar de
 volta
+
+## Funcionalidades a implementar
+
 
 ### 4. Envio de Mensagens
 Permita a um usuário cadastrado do iFace enviar
