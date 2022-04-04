@@ -31,4 +31,40 @@ public class Profile {
         return p;
     }
 
+    public void editProfile() {
+        int choice;
+        Scanner input = new Scanner(System.in);
+        while (true)
+        {
+            System.out.println("\nQual campo deseja alterar?\n");
+            System.out.println("[1] Hobbie");
+            System.out.println("[2] Idade");
+            System.out.println("[3] Local");
+            System.out.println("[99] Sair da edição");
+            
+            choice = input.nextInt();
+
+            if (choice == 1)
+            {
+                System.out.println("Digite o novo hobbie:");
+                String hobbie = input.next().trim();
+                this.hobbie = hobbie;
+            }
+            if (choice == 2)
+            {
+                System.out.println("Digite a nova idade:");
+                int idade = input.nextInt();
+                this.idade = idade;
+            }
+            else if (choice == 3)
+            {
+                System.out.println("Digite o novo local:");
+                String local = input.next().trim();
+                this.local = local;
+            }
+            else if (choice == 99)     
+                break;
+            
+        }
+    }
 }

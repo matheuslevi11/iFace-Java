@@ -3,18 +3,18 @@ import java.util.ArrayList;
 
 public class User {
     // Usuário
-    private String nickname;
+    public String nickname;
     private String login;
     private String password;
     // Amizade
     public ArrayList<User> friends = new ArrayList<User>();
     public ArrayList<User> requests = new ArrayList<User>();
     // Outros objetos
-    private Profile profile;
+    public Profile profile;
     // Variáveis estáticas
-    private static User[] users = new User[10];
-    private static int userCount = 0;
+    public static ArrayList<User> users = new ArrayList<User>();
 
+    // Construtor
     public User(String nickname, String login, String password)
     {
         this.nickname = nickname;
@@ -29,16 +29,17 @@ public class User {
         System.out.println("Senha: " +this.password + "\n");
         
         String[] atributes = this.profile.getProfileInfo();
-        System.out.println("Hobbie: " + atributes[0] + "\n");
-        System.out.println("Idade: " + atributes[1] + "\n");
-        System.out.println("Local: " + atributes[2] + "\n");
+        System.out.println("Hobbie: " + atributes[0]);
+        System.out.println("Idade: " + atributes[1]);
+        System.out.println("Local: " + atributes[2]);
     }
     
     public void showFriends()
     {
-        for (int i = 0; i < friends.size(); i++)
+        System.out.println("Seus amigos:\n");
+        for (User u : friends)
         {
-            System.out.println(friends.get(i).nickname);
+            System.out.println(u.nickname);
         }
     }
 
@@ -60,28 +61,13 @@ public class User {
             this.password = password;
     }
 
-    public void editHobbie(String hobbie)
-    {
-        this.profile.hobbie = hobbie;
-    }
-
-    public void editIdade(int idade)
-    {
-        this.profile.idade = idade;
-    }
-
-    public void editLocal(String local)
-    {
-        this.profile.local = local;
-    }
-
     private User getUser(String nickname)
     {
-        for (int i = 0; i < userCount; i++)
+        for (User u: users)
         {
-            if (nickname.equals(users[i].nickname))
+            if (nickname.equals(u.nickname))
             {
-                return users[i];
+                return u;
             }
         }
         return null;
@@ -90,31 +76,32 @@ public class User {
     public void friendRequest(String nickname)
     {
         User u = getUser(nickname);
-        u.requests.add(this);
-
+        if (u != null)
+            u.requests.add(this);
+        else
+            System.out.println("Usuário não encontrado!");
     }
 
     public void updateFriendList()
     {
-        System.out.println("Você tem " + requests.size() + "solicitações");
+        System.out.println("---------------------------------------------");
+        System.out.println("Você tem " + requests.size() + " solicitações\n");
         int choice;
         Scanner input = new Scanner(System.in);
-        
         if (requests.size() > 0)
         {
-            
             while (true)
             {
-                for (int i = 0; i < requests.size(); i++)
+                for (User u: requests)
                 {
-                    System.out.println("Pedido de amizade de: " + requests.get(i).nickname);
+                    System.out.println("Pedido de amizade de: " + u.nickname);
                 }
                 System.out.println("[1] Aceitar Solicitação");
                 System.out.println("[2] Sair");
                 choice = input.nextInt();
                 if (choice == 1)
                 {
-                    System.out.println("Digite o  nome do usuario que deseja aceitar");
+                    System.out.println("Digite o nome do usuario que deseja aceitar");
                     String newFriend = input.next();
                     this.addFriend(newFriend);
                 }
@@ -123,6 +110,7 @@ public class User {
                 }
             }
         }
+        System.out.println("---------------------------------------------");
     }
 
     public void addFriend(String newFriend)
@@ -130,23 +118,20 @@ public class User {
         User u = getUser(newFriend);
         u.friends.add(this);
         this.friends.add(u);
+        this.requests.remove(u);
     }
-    
+  
+    // Funções estáticas
     public static void showAllUsers()
     {
         System.out.println("Mostrando todos os usuários logados:");
-        for (int i = 0; i < userCount; i++)
+        for (User u: users)
         {
-            users[i].printUserInfo();
+            u.printUserInfo();
         }
     }
     
     public static User createUser() {
-        if (userCount == 10)
-        {
-            System.out.println("Limite de usuários atingido!");
-            return null;
-        }
         Scanner input = new Scanner(System.in);
         System.out.println("Digite o seu Apelido:");
         String nickname = input.next().trim();
@@ -156,9 +141,8 @@ public class User {
         String password = input.next().trim();
         
         User u = new User(nickname, login, password);
-        users[userCount] = u;
-        userCount++;
         u.profile = Profile.createProfile();
+        users.add(u);
         return u;
     }
     
@@ -169,11 +153,10 @@ public class User {
         System.out.println("Digite a sua Senha:");
         String password = input.nextLine().trim();
         
-        for (int i = 0; i < userCount; i++)
+        for (User u: users)
         {
-            if (login.equals(users[i].login) && password.equals(users[i].password))
+            if (login.equals(u.login) && password.equals(u.password))
             {
-                User u = users[i];
                 System.out.println("Logado com sucesso!\n");
                 return u;
             }

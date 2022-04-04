@@ -6,16 +6,13 @@ public class Menu {
     {
         int choice;
         Scanner input = new Scanner(System.in);
-
         while (true)
         {
             System.out.println("\nQual campo deseja alterar?\n");
             System.out.println("[1] Apelido");
             System.out.println("[2] Login");
             System.out.println("[3] Senha");
-            System.out.println("[4] Hobbie");
-            System.out.println("[5] Idade");
-            System.out.println("[6] Local");
+            System.out.println("[4] Editar Perfil");
             System.out.println("[99] Sair da edição");
             
             choice = input.nextInt();
@@ -40,21 +37,7 @@ public class Menu {
             }
             else if (choice == 4)
             {
-                System.out.println("Digite o novo hobbie:");
-                String hobbie = input.next().trim();
-                u.editHobbie(hobbie);
-            }
-            else if (choice == 5)
-            {
-                System.out.println("Digite a nova idade:");
-                int idade = input.nextInt();
-                u.editIdade(idade);
-            }
-            else if (choice == 6)
-            {
-                System.out.println("Digite o novo local:");
-                String local = input.next().trim();
-                u.editLocal(local);
+                u.profile.editProfile();
             }
             else if (choice == 99)
             {
@@ -69,7 +52,6 @@ public class Menu {
     {
         Scanner input = new Scanner(System.in);
         System.out.println("------------ Bem vindo ao iFace ------------\n");
-        System.out.println("O que deseja?");
         
         System.out.println("Ainda não há usuários cadastrados no sistema, digite 1 para criar o seu usuário!");
         int choice = input.nextInt();
@@ -85,19 +67,28 @@ public class Menu {
         
         while (true)
         {
-            System.out.println("\nO que deseja?\n");
-            System.out.println("[1] Criar outro usuário");
-            System.out.println("[2] Ver todos os usuários");
+            try{
+                Thread.sleep(800);
+            }
+            catch (Exception e) {
+                System.out.println(e);
+            }
             if (u == null)
             {
+                System.out.println("[1] Criar outro usuário");
+                System.out.println("[2] Ver todos os usuários");
                 System.out.println("[3] Fazer login") ;
             }
             else
             {
+                System.out.println("\nOlá " + u.nickname + " o que deseja?\n");
+                System.out.println("[1] Criar outro usuário");
+                System.out.println("[2] Ver todos os usuários");
                 System.out.println("[3] Fazer logout");
                 System.out.println("[4] Editar Perfil");
                 System.out.println("[5] Adicionar Amigo");
                 System.out.println("[6] Ver solicitações de amizade");
+                System.out.println("[7] Ver lista de amigos");
             }
             System.out.println("[99] Sair");
             
@@ -122,10 +113,13 @@ public class Menu {
             }
             else if (choice == 6)
                 u.updateFriendList();
+            else if (choice == 7)
+                u.showFriends();
             else if (choice == 99)
                 break;
-        }
+            }
     }
+    
     public static void main(String[] args) {
         menu();
     }
