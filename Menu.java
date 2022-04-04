@@ -81,7 +81,7 @@ public class Menu {
             }
             else
             {
-                System.out.println("\nOlá " + u.nickname + " o que deseja?\n");
+                System.out.println("\nOlá " + u.nickname + ", o que deseja?\n");
                 System.out.println("[1] Criar outro usuário");
                 System.out.println("[2] Ver todos os usuários");
                 System.out.println("[3] Fazer logout");
@@ -89,8 +89,10 @@ public class Menu {
                 System.out.println("[5] Adicionar Amigo");
                 System.out.println("[6] Ver solicitações de amizade");
                 System.out.println("[7] Ver lista de amigos");
+                System.out.println("[8] Enviar uma mensagem");
+                System.out.println("[9] Ver caixa de mensagens");
             }
-            System.out.println("[99] Sair");
+            System.out.println("[99] Encerrar iFace");
             
             choice = input.nextInt();
 
@@ -115,6 +117,16 @@ public class Menu {
                 u.updateFriendList();
             else if (choice == 7)
                 u.showFriends();
+            else if (choice == 8)
+            {
+                System.out.println("Para quem deseja enviar uma mensagem?");
+                String receiver = input.next();
+                u.newMessage(receiver);
+            }
+            else if (choice == 9)
+            {
+                u.showMessages();
+            }
             else if (choice == 99)
                 break;
             }

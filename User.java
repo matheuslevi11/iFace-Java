@@ -11,6 +11,7 @@ public class User {
     public ArrayList<User> requests = new ArrayList<User>();
     // Outros objetos
     public Profile profile;
+    public ArrayList<Message> msgs = new ArrayList<Message>();
     // Variáveis estáticas
     public static ArrayList<User> users = new ArrayList<User>();
 
@@ -77,7 +78,10 @@ public class User {
     {
         User u = getUser(nickname);
         if (u != null)
+        {
             u.requests.add(this);
+            System.out.println("Solicitação enviada!");
+        }
         else
             System.out.println("Usuário não encontrado!");
     }
@@ -116,11 +120,38 @@ public class User {
     public void addFriend(String newFriend)
     {
         User u = getUser(newFriend);
-        u.friends.add(this);
-        this.friends.add(u);
-        this.requests.remove(u);
+        if (u != null)
+        {
+            u.friends.add(this);
+            this.friends.add(u);
+            this.requests.remove(u);
+            System.out.println("Amigo adicionado!");
+        }
+        else
+            System.out.println("Erro ao adicionar amigo!");
     }
   
+    public void newMessage(String receiver)
+    {
+        User u = getUser(receiver);
+        Message msg = Message.sendMessage(this.nickname);
+        u.msgs.add(msg);
+        System.out.println("Mensagem enviada!");
+    }
+
+    public void showMessages()
+    {
+        if (msgs.size() > 0)
+        {
+            System.out.println("Suas mensagens:\n");
+            for (Message m : msgs) {
+                System.out.println(m.getDate() + " " + m.getSender() + ": " + m.getContent());
+            }
+        }
+        else
+            System.out.println("Você não tem mensagens");
+    }
+
     // Funções estáticas
     public static void showAllUsers()
     {
