@@ -22,13 +22,14 @@ enviar-lhe um convite. O relacionamento só é
 efetivado quando o outro usuário o adicionar de
 volta
 
+## Funcionalidades Implementadas após 19:00
+
 ### 4. Envio de Mensagens
 Permita a um usuário cadastrado do iFace enviar
 um recado a qualquer outro usuário cadastrado ou
 comunidade.
 
 ## Funcionalidades a implementar
-
 
 ### 5. Criação de Comunidades
 Permita a um usuário cadastrado do iFace criar uma
