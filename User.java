@@ -12,6 +12,7 @@ public class User {
     // Outros objetos
     public Profile profile;
     public ArrayList<Message> msgs = new ArrayList<Message>();
+    private Community community = null;
     // Variáveis estáticas
     public static ArrayList<User> users = new ArrayList<User>();
 
@@ -23,6 +24,7 @@ public class User {
         this.password = password;
     }
 
+    // Funções de visualização
     public void printUserInfo()
     {
         System.out.println("Apelido: " + this.nickname);
@@ -44,6 +46,7 @@ public class User {
         }
     }
 
+    // Funções de Edição
     public void editNickname(String nickname)
     {
         if (nickname.length() > 0)
@@ -62,18 +65,8 @@ public class User {
             this.password = password;
     }
 
-    private User getUser(String nickname)
-    {
-        for (User u: users)
-        {
-            if (nickname.equals(u.nickname))
-            {
-                return u;
-            }
-        }
-        return null;
-    }
-
+    
+    // Funções de amizade
     public void friendRequest(String nickname)
     {
         User u = getUser(nickname);
@@ -83,9 +76,9 @@ public class User {
             System.out.println("Solicitação enviada!");
         }
         else
-            System.out.println("Usuário não encontrado!");
+        System.out.println("Usuário não encontrado!");
     }
-
+    
     public void updateFriendList()
     {
         System.out.println("---------------------------------------------");
@@ -130,7 +123,8 @@ public class User {
         else
             System.out.println("Erro ao adicionar amigo!");
     }
-  
+
+    // Funções de mensagem
     public void newMessage(String receiver)
     {
         User u = getUser(receiver);
@@ -152,6 +146,22 @@ public class User {
             System.out.println("Você não tem mensagens");
     }
 
+    // Funções de comunidade
+    public void newCommunity()
+    {
+        this.community = Community.createCommunity(this);
+    }
+    public Community getCommunity()
+    {
+        return this.community;
+    }
+    public void enterCommunity()
+    {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Digite o nome da comunidade que deseja entrar:");
+        String name = input.next();
+        Community.enterCommunity(name, this);
+    }
     // Funções estáticas
     public static void showAllUsers()
     {
@@ -162,15 +172,36 @@ public class User {
         }
     }
     
-    public static User createUser() {
+    private static User getUser(String nickname)
+    {
+        for (User u: users)
+        {
+            if (nickname.equals(u.nickname))
+            {
+                return u;
+            }
+        }
+        return null;
+    }
+
+    public static User createUser() {    
         Scanner input = new Scanner(System.in);
-        System.out.println("Digite o seu Apelido:");
-        String nickname = input.next().trim();
-        System.out.println("Digite o seu Login:");
-        String login = input.next().trim();
-        System.out.println("Digite a sua Senha:");
-        String password = input.next().trim();
-        
+        String nickname; String login; String password;
+
+        while (true)
+        {
+            System.out.println("Digite o seu Apelido:");
+            nickname = input.next().trim();
+            System.out.println("Digite o seu Login:");
+            login = input.next().trim();
+            System.out.println("Digite a sua Senha:");
+            password = input.next().trim();
+
+            if (getUser(nickname) == null)
+                break;
+            System.out.println("Apelido já existe, tente novamente!\n");
+        }
+
         User u = new User(nickname, login, password);
         u.profile = Profile.createProfile();
         users.add(u);

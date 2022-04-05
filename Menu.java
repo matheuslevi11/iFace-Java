@@ -48,6 +48,42 @@ public class Menu {
         }
     }
     
+    private static void community_submenu(User u)
+    {
+        Scanner input = new Scanner(System.in);
+        int choice;
+        Community c = u.getCommunity();
+        System.out.println("------------ Bem vindo a comunidade " + c.name + " ------------\n");
+        System.out.println(c.description);
+
+        while (true)
+        {
+            System.out.println("\n[1] Ver mensagens da comunidade");
+            if (c.isOwner(u))
+            {
+                System.out.println("[2] Gerenciar comunidade");
+            }
+            System.out.println("[99] Sair da aba de comunidade");
+            
+            choice = input.nextInt();
+
+            if (choice == 1)
+            {
+                c.showMessages();
+            }
+            else if (choice == 2)
+            {
+                if (c.isOwner(u)) {
+                    c.ManageCommunity();
+                }
+                else
+                    System.out.println("Você não tem permissão para fazer isso!");
+            }
+            else if (choice == 99)
+                break;
+        }
+    }
+
     private static void menu()
     {
         Scanner input = new Scanner(System.in);
@@ -83,7 +119,7 @@ public class Menu {
             {
                 System.out.println("\nOlá " + u.nickname + ", o que deseja?\n");
                 System.out.println("[1] Criar outro usuário");
-                System.out.println("[2] Ver todos os usuários");
+                System.out.println("[2] Criar/Entrar em uma comunidade");
                 System.out.println("[3] Fazer logout");
                 System.out.println("[4] Editar Perfil");
                 System.out.println("[5] Adicionar Amigo");
@@ -91,15 +127,24 @@ public class Menu {
                 System.out.println("[7] Ver lista de amigos");
                 System.out.println("[8] Enviar uma mensagem");
                 System.out.println("[9] Ver caixa de mensagens");
+                System.out.println("[10] Ir para o menu da comunidade");
             }
             System.out.println("[99] Encerrar iFace");
             
             choice = input.nextInt();
-
+            
             if (choice == 1)
-                u = User.createUser();
+            u = User.createUser();
             else if (choice == 2)
-                User.showAllUsers();
+            {
+                System.out.println("[1] Criar uma comunidade");
+                System.out.println("[2] Entrar numa comunidade");
+                choice = input.nextInt();
+                if (choice == 1)
+                    u.newCommunity();
+                else
+                    u.enterCommunity();
+            }
             else if (choice == 3)
                 if (u == null)
                     u = User.login();
@@ -126,6 +171,13 @@ public class Menu {
             else if (choice == 9)
             {
                 u.showMessages();
+            }
+            else if (choice == 10)
+            {
+                if (u.getCommunity() != null)
+                    community_submenu(u);
+                else
+                    System.out.println("Você não está em uma comunidade!");
             }
             else if (choice == 99)
                 break;

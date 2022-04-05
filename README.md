@@ -29,8 +29,6 @@ Permita a um usuário cadastrado do iFace enviar
 um recado a qualquer outro usuário cadastrado ou
 comunidade.
 
-## Funcionalidades a implementar
-
 ### 5. Criação de Comunidades
 Permita a um usuário cadastrado do iFace criar uma
 comunidade. Deve ser fornecido um nome e uma
@@ -41,6 +39,8 @@ membros.
 ### 6. Adição de membros
 Permita a um usuário cadastrado do iFace se tornar
 membro de uma comunidade.
+
+## Funcionalidades a implementar
 
 ### 7. Recuperar Informações sobre um determinado Usuário
 Permita a um usuário cadastrado do iFace recuperar
