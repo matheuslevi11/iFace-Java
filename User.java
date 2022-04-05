@@ -28,13 +28,17 @@ public class User {
     public void printUserInfo()
     {
         System.out.println("Apelido: " + this.nickname);
-        System.out.println("Usuario: " + this.login);
-        System.out.println("Senha: " +this.password + "\n");
         
         String[] atributes = this.profile.getProfileInfo();
         System.out.println("Hobbie: " + atributes[0]);
         System.out.println("Idade: " + atributes[1]);
         System.out.println("Local: " + atributes[2]);
+        
+        System.out.println("Amigos: " + friends.size());
+        
+        if (this.community != null) {
+            System.out.println("Comunidade: " + this.community.name);
+        }
     }
     
     public void showFriends()
@@ -128,9 +132,23 @@ public class User {
     public void newMessage(String receiver)
     {
         User u = getUser(receiver);
-        Message msg = Message.sendMessage(this.nickname);
-        u.msgs.add(msg);
-        System.out.println("Mensagem enviada!");
+        if (u != null) {
+            Message msg = Message.sendMessage(this.nickname);
+            u.msgs.add(msg);
+            System.out.println("Mensagem enviada!");
+        }
+        else
+            System.out.println("Usuário não encontrado!");
+    }
+    public void newMessage()
+    {
+        if (this.community != null) {
+            Message msg = Message.sendMessage(this.nickname);
+            this.community.msgs.add(msg);
+            System.out.println("Mensagem enviada!");
+        }
+        else
+            System.out.println("Você não possui uma comunidade!");
     }
 
     public void showMessages()
@@ -162,16 +180,11 @@ public class User {
         String name = input.next();
         Community.enterCommunity(name, this);
     }
-    // Funções estáticas
-    public static void showAllUsers()
+    public void enterCommunity(Community c)
     {
-        System.out.println("Mostrando todos os usuários logados:");
-        for (User u: users)
-        {
-            u.printUserInfo();
-        }
+        this.community = c;
     }
-    
+    // Funções estáticas
     private static User getUser(String nickname)
     {
         for (User u: users)
@@ -226,5 +239,30 @@ public class User {
         
         System.out.println("Falha no login!\n");
         return null;
+    }
+
+    public static void search()
+    {
+        while (true) {
+            Scanner input = new Scanner(System.in);
+            
+            System.out.println("Digite o nome de um usuário:\n");
+            String nick = input.next();
+            System.out.println("------------------------------");
+            User u = getUser(nick);
+            if (u != null)
+            {
+                u.printUserInfo();
+                System.out.println("------------------------------");
+            }
+            else
+            System.out.println("Usuário não encontrado!");
+            
+            System.out.println("[1] Continuar buscando\n[2] Sair\n");
+            int choice = input.nextInt();
+            if (choice == 2) {
+                break;
+            }
+        }
     }
 }

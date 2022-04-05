@@ -128,6 +128,7 @@ public class Menu {
                 System.out.println("[8] Enviar uma mensagem");
                 System.out.println("[9] Ver caixa de mensagens");
                 System.out.println("[10] Ir para o menu da comunidade");
+                System.out.println("[11] Pesquisar usuário");
             }
             System.out.println("[99] Encerrar iFace");
             
@@ -164,9 +165,16 @@ public class Menu {
                 u.showFriends();
             else if (choice == 8)
             {
-                System.out.println("Para quem deseja enviar uma mensagem?");
-                String receiver = input.next();
-                u.newMessage(receiver);
+                System.out.println("[1] Enviar uma mensagem para o usuário");
+                System.out.println("[2] Enviar uma mensagem para uma comunidade");
+                choice = input.nextInt();
+                if (choice == 1) {
+                    System.out.println("Para quem deseja enviar uma mensagem?");
+                    String receiver = input.next();
+                    u.newMessage(receiver);
+                }
+                else
+                    u.newMessage();
             }
             else if (choice == 9)
             {
@@ -179,6 +187,8 @@ public class Menu {
                 else
                     System.out.println("Você não está em uma comunidade!");
             }
+            else if (choice == 11)
+                User.search();
             else if (choice == 99)
                 break;
             }

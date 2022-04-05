@@ -40,12 +40,12 @@ membros.
 Permita a um usuário cadastrado do iFace se tornar
 membro de uma comunidade.
 
-## Funcionalidades a implementar
-
 ### 7. Recuperar Informações sobre um determinado Usuário
 Permita a um usuário cadastrado do iFace recuperar
 informações sobre o seu perfil, comunidades,
 amigos e mensagens.
+
+## Funcionalidades a implementar
 
 ### 8. Remoção de Conta
 Permita a um usuário encerrar sua conta no iFace.

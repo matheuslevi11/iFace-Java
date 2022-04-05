@@ -28,7 +28,10 @@ public class Community {
     public void showMessages()
     {
         if (msgs.size() > 0) {
-            System.out.println("---- Mensagens da comunidade ----");
+            System.out.println("---- Mensagens da comunidade ----\n");
+            for (Message m : msgs) {
+                System.out.println(m.getDate() + " " + m.getSender() + ": " + m.getContent());
+            }
         }
         else
             System.out.println("Ainda não há mensagens nesta comunidade");
@@ -62,13 +65,19 @@ public class Community {
                 {
                     System.out.println("Digite o nome do usuario que deseja aceitar");
                     String newMember = input.next();
+                    User addedUser = null;
                     for (User u : requests) {
                         if (u.nickname.equals(newMember))
                         {
                             System.out.println(u.nickname + " foi aceito!");
                             this.members.add(u);
+                            u.enterCommunity(this);
+                            addedUser = u;
                         }
                     }
+                    if (addedUser != null)
+                        this.requests.remove(addedUser);
+                    
                 }
                 else
                     break;
@@ -84,7 +93,7 @@ public class Community {
 
         while (true)
         {
-            System.out.println("[1] Ver todos os membros da comunidade");
+            System.out.println("\n[1] Ver todos os membros da comunidade");
             System.out.println("[2] Ver novas solicitações de membros");
             System.out.println("[99] Voltar para a aba da comunidade");
             
