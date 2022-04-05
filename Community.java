@@ -25,6 +25,11 @@ public class Community {
         return false;
     }
 
+    public void setOwner(User u)
+    {
+        this.owner = u;
+    }
+
     public void showMessages()
     {
         if (msgs.size() > 0) {
@@ -110,6 +115,38 @@ public class Community {
             else if (choice == 99)
                 break;
         }
+    }
+
+    public String deleteUser(User u)
+    {
+        String newOwner = "deleted";
+        if (isOwner(u))
+        {
+            if (members.size() > 1) {
+                System.out.println("Você é dono de uma comunidade, o que deseja fazer com ela?");
+                System.out.println("[1] Apagar a comunidade " + this.name);
+                System.out.println("[2] Transferir posse");
+                Scanner input = new Scanner(System.in);
+                int choice = input.nextInt();
+                if (choice == 2) {
+                    showMembers();
+                    System.out.println("Para quem você deseja transferir?");
+                    newOwner = input.next();
+                }
+            }
+        }
+
+        this.members.remove(u);
+        for (Message m : msgs) {
+            if (m.getSender().equals(u.nickname)) {
+                msgs.remove(m);
+            }
+        }
+        if (newOwner.equals("deleted")) {
+            communities.remove(this);
+        }
+
+        return newOwner;
     }
 
     public static Community createCommunity(User u)

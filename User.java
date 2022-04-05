@@ -69,7 +69,47 @@ public class User {
             this.password = password;
     }
 
-    
+    public void deleteUser()
+    {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Você tem certeza que deseja deletar seu usuário?");
+        System.out.println("[1] Sim\n[2] Não");
+        int choice = input.nextInt();
+        if (choice == 1) {
+            for (User u : users) {
+                // Removendo mensagens
+                for (Message m : u.msgs) {
+                    if (m.getSender().equals(this.nickname)) {
+                        msgs.remove(m);
+                    }
+                }
+                // Removendo relacionamentos
+                for (User f : u.friends) {
+                    if (f.nickname.equals(this.nickname)) {
+                        friends.remove(f);
+                    }
+                }
+            }
+            // Removendo comunidade
+            String c = this.community.deleteUser(this);
+            if (c.equals("deleted")) {
+                for (User u : users) {
+                    if (u.community != null) {
+                        if (u.community.name.equals(this.community.name)) {
+                            u.community = null;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                User newOwner = getUser(c);
+                this.community.setOwner(newOwner);
+            }
+            this.profile = null;
+            users.remove(this);
+        }
+    }
     // Funções de amizade
     public void friendRequest(String nickname)
     {

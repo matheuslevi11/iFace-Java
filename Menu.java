@@ -129,6 +129,7 @@ public class Menu {
                 System.out.println("[9] Ver caixa de mensagens");
                 System.out.println("[10] Ir para o menu da comunidade");
                 System.out.println("[11] Pesquisar usuário");
+                System.out.println("[12] Apagar meu usuário do iFace");
             }
             System.out.println("[99] Encerrar iFace");
             
@@ -189,6 +190,10 @@ public class Menu {
             }
             else if (choice == 11)
                 User.search();
+            else if (choice == 12) {
+                u.deleteUser();
+                u = null;
+            }            
             else if (choice == 99)
                 break;
             }
