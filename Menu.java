@@ -98,7 +98,6 @@ public class Menu {
             choice = input.nextInt();
         }
         
-        Feed feed = new Feed();
         User u = User.createUser();
         
         while (true)
@@ -179,7 +178,7 @@ public class Menu {
                 else if (choice == 2)
                     u.newMessage();
                 else
-                    feed.newMessage(u.nickname);
+                    u.feed.newMessage(u, User.getUsers());
             }
             else if (choice == 9)
             {
@@ -195,12 +194,7 @@ public class Menu {
             else if (choice == 11)
                 User.search();
             else if (choice == 12) {
-                System.out.println("[1] Mostrar feed dos amigos\n[2] Mostrar feed completo");
-                choice = input.nextInt();
-                if (choice == 1) 
-                    feed.showFeed(u, true);
-                else
-                    feed.showFeed(u, false);
+                u.feed.showFeed();
             }
             else if (choice == 13)
             {

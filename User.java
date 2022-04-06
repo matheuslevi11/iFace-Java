@@ -13,6 +13,7 @@ public class User {
     public Profile profile;
     public ArrayList<Message> msgs = new ArrayList<Message>();
     private Community community = null;
+    public Feed feed = new Feed();
     // Variáveis estáticas
     public static ArrayList<User> users = new ArrayList<User>();
 
@@ -303,5 +304,9 @@ public class User {
                 break;
             }
         }
+    }
+    public static ArrayList<User> getUsers()
+    {
+        return users;
     }
 }
