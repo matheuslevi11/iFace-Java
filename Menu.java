@@ -98,7 +98,7 @@ public class Menu {
             choice = input.nextInt();
         }
         
-        
+        Feed feed = new Feed();
         User u = User.createUser();
         
         while (true)
@@ -129,7 +129,8 @@ public class Menu {
                 System.out.println("[9] Ver caixa de mensagens");
                 System.out.println("[10] Ir para o menu da comunidade");
                 System.out.println("[11] Pesquisar usuário");
-                System.out.println("[12] Apagar meu usuário do iFace");
+                System.out.println("[12] Visualizar Feed de Notícias");
+                System.out.println("[13] Apagar meu usuário do iFace");
             }
             System.out.println("[99] Encerrar iFace");
             
@@ -168,14 +169,17 @@ public class Menu {
             {
                 System.out.println("[1] Enviar uma mensagem para o usuário");
                 System.out.println("[2] Enviar uma mensagem para uma comunidade");
+                System.out.println("[3] Enviar uma mensagem para o Feed de Notícias");
                 choice = input.nextInt();
                 if (choice == 1) {
                     System.out.println("Para quem deseja enviar uma mensagem?");
                     String receiver = input.next();
                     u.newMessage(receiver);
                 }
-                else
+                else if (choice == 2)
                     u.newMessage();
+                else
+                    feed.newMessage(u.nickname);
             }
             else if (choice == 9)
             {
@@ -191,9 +195,18 @@ public class Menu {
             else if (choice == 11)
                 User.search();
             else if (choice == 12) {
+                System.out.println("[1] Mostrar feed dos amigos\n[2] Mostrar feed completo");
+                choice = input.nextInt();
+                if (choice == 1) 
+                    feed.showFeed(u, true);
+                else
+                    feed.showFeed(u, false);
+            }
+            else if (choice == 13)
+            {
                 u.deleteUser();
                 u = null;
-            }            
+            }
             else if (choice == 99)
                 break;
             }

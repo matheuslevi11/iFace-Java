@@ -190,7 +190,6 @@ public class User {
         else
             System.out.println("Você não possui uma comunidade!");
     }
-
     public void showMessages()
     {
         if (msgs.size() > 0)

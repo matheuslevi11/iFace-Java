@@ -50,8 +50,6 @@ Permita a um usuário encerrar sua conta no iFace.
 Todas as suas informações devem sumir do sistema:
 relacionamentos, mensagens enviadas, perfil.
 
-## Funcionalidades a implementar
-
 ### 9. Envio de Mensagens no Feed de Notícias
 Permita a um usuário enviar mensagens no Feed de
 notícias
