@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Menu {
     
@@ -8,11 +9,8 @@ public class Menu {
         Scanner input = new Scanner(System.in);
         while (true)
         {
-            System.out.println("\nQual campo deseja alterar?\n");
-            System.out.println("[1] Apelido");
-            System.out.println("[2] Login");
-            System.out.println("[3] Senha");
-            System.out.println("[4] Editar Perfil");
+            ArrayList<String> options = Database.editOptions("User");
+            Graphics.printOptions(options, "Escolha o campo que deseja editar");
             System.out.println("[99] Sair da edição");
             
             choice = input.nextInt();
@@ -41,7 +39,7 @@ public class Menu {
             }
             else if (choice == 99)
             {
-                System.out.println("Seus dados ficaram assim:\n");
+                Graphics.success("Seus dados ficaram assim:\n");
                 u.printUserInfo();
                 break;
             }
@@ -53,16 +51,12 @@ public class Menu {
         Scanner input = new Scanner(System.in);
         int choice;
         Community c = u.getCommunity();
-        System.out.println("------------ Bem vindo a comunidade " + c.name + " ------------\n");
-        System.out.println(c.description);
+        Graphics.start(c.name, c.description);
 
         while (true)
         {
-            System.out.println("\n[1] Ver mensagens da comunidade");
-            if (c.isOwner(u))
-            {
-                System.out.println("[2] Gerenciar comunidade");
-            }
+            ArrayList<String> options = Database.communityOptions(c.isOwner(u));
+            Graphics.printOptions(options, "O que deseja fazer?");
             System.out.println("[99] Sair da aba de comunidade");
             
             choice = input.nextInt();
@@ -77,7 +71,7 @@ public class Menu {
                     c.ManageCommunity();
                 }
                 else
-                    System.out.println("Você não tem permissão para fazer isso!");
+                    Graphics.failure("Você não tem permissão para fazer isso!");
             }
             else if (choice == 99)
                 break;
@@ -87,18 +81,10 @@ public class Menu {
     private static void menu()
     {
         Scanner input = new Scanner(System.in);
-        System.out.println("------------ Bem vindo ao iFace ------------\n");
-        
-        System.out.println("Ainda não há usuários cadastrados no sistema, digite 1 para criar o seu usuário!");
-        int choice = input.nextInt();
-        
-        while (choice != 1)
-        {
-            System.out.println("Ainda não há usuários cadastrados no sistema, digite 1 para criar o seu usuário!");
-            choice = input.nextInt();
-        }
+        Graphics.start("iFace", "Comece criando o seu usuário:");
         
         User u = User.createUser();
+        int choice = 0;
         
         while (true)
         {
@@ -108,37 +94,29 @@ public class Menu {
             catch (Exception e) {
                 System.out.println(e);
             }
-            if (u == null)
-            {
-                System.out.println("[1] Criar outro usuário");
-                System.out.println("[2] Ver todos os usuários");
-                System.out.println("[3] Fazer login") ;
+            if (u == null) {
+                ArrayList<String> options = Database.logoutOptions();
+                Graphics.printOptions(options, "Você não está logado no iFace, o que deseja?");
             }
-            else
-            {
-                System.out.println("\nOlá " + u.nickname + ", o que deseja?\n");
-                System.out.println("[1] Criar outro usuário");
-                System.out.println("[2] Criar/Entrar em uma comunidade");
-                System.out.println("[3] Fazer logout");
-                System.out.println("[4] Editar Perfil");
-                System.out.println("[5] Adicionar Amigo");
-                System.out.println("[6] Ver solicitações de amizade");
-                System.out.println("[7] Ver lista de amigos");
-                System.out.println("[8] Enviar uma mensagem");
-                System.out.println("[9] Ver caixa de mensagens");
-                System.out.println("[10] Ir para o menu da comunidade");
-                System.out.println("[11] Pesquisar usuário");
-                System.out.println("[12] Visualizar Feed de Notícias");
-                System.out.println("[13] Apagar meu usuário do iFace");
+            else {
+                ArrayList<String> options = Database.mainMenuOptions();
+                Graphics.printOptions(options, "Olá " + u.nickname + ", o que deseja?");
             }
             System.out.println("[99] Encerrar iFace");
             
             choice = input.nextInt();
             
-            if (choice == 1)
-            u = User.createUser();
+            if (choice == 1){
+                u = User.createUser();
+            }
             else if (choice == 2)
             {
+                if (u == null)
+                    u = User.login();
+                else
+                    u = null;
+            }
+            else if (choice == 3){
                 System.out.println("[1] Criar uma comunidade");
                 System.out.println("[2] Entrar numa comunidade");
                 choice = input.nextInt();
@@ -147,11 +125,6 @@ public class Menu {
                 else
                     u.enterCommunity();
             }
-            else if (choice == 3)
-                if (u == null)
-                    u = User.login();
-                else
-                    u = null;
             else if (choice == 4)
                 edit_submenu(u);
             else if (choice == 5)
@@ -166,9 +139,8 @@ public class Menu {
                 u.showFriends();
             else if (choice == 8)
             {
-                System.out.println("[1] Enviar uma mensagem para o usuário");
-                System.out.println("[2] Enviar uma mensagem para uma comunidade");
-                System.out.println("[3] Enviar uma mensagem para o Feed de Notícias");
+                ArrayList<String> options = Database.messageOptions();
+                Graphics.printOptions(options, "Como deseja enviar?");
                 choice = input.nextInt();
                 if (choice == 1) {
                     System.out.println("Para quem deseja enviar uma mensagem?");

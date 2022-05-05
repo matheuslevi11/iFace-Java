@@ -33,10 +33,7 @@ public class Community {
     public void showMessages()
     {
         if (msgs.size() > 0) {
-            System.out.println("---- Mensagens da comunidade ----\n");
-            for (Message m : msgs) {
-                System.out.println(m.getDate() + " " + m.getSender() + ": " + m.getContent());
-            }
+            Graphics.printMessages(msgs, "Mensagens da Comunidade");
         }
         else
             System.out.println("Ainda não há mensagens nesta comunidade");
@@ -72,9 +69,9 @@ public class Community {
                     String newMember = input.next();
                     User addedUser = null;
                     for (User u : requests) {
-                        if (u.nickname.equals(newMember))
+                        if (u.nickname.equalsIgnoreCase(newMember))
                         {
-                            System.out.println(u.nickname + " foi aceito!");
+                            Graphics.success(u.nickname + " foi aceito!");
                             this.members.add(u);
                             u.enterCommunity(this);
                             addedUser = u;
@@ -138,29 +135,29 @@ public class Community {
 
         this.members.remove(u);
         for (Message m : msgs) {
-            if (m.getSender().equals(u.nickname)) {
+            if (m.getSender().equalsIgnoreCase(u.nickname)) {
                 msgs.remove(m);
             }
         }
-        if (newOwner.equals("deleted")) {
+        if (newOwner.equalsIgnoreCase("deleted")) {
             communities.remove(this);
         }
 
         return newOwner;
     }
 
-    public static Community createCommunity(User u)
+    public static Community createCommunity(User owner)
     {
         Scanner input = new Scanner(System.in);
         Scanner messageReceiver = new Scanner(System.in);
         messageReceiver.useDelimiter("\n");
         
         System.out.println("Digite o nome da sua comunidade:");
-        String name = input.next();
+        String name = messageReceiver.next();
         System.out.println("Digite a descrição da sua comunidade:");
         String description = messageReceiver.next();
-        Community com = new Community(name, description, u);
-        com.members.add(u);
+        Community com = new Community(name, description, owner);
+        com.members.add(owner);
         communities.add(com);
         
         return com;
@@ -170,14 +167,14 @@ public class Community {
     {
         boolean sent = false;
         for (Community c : communities) {
-            if (c.name.equals(name)) {
+            if (c.name.equalsIgnoreCase(name)) {
                 sent = true;
                 c.requests.add(u);
                 System.out.println("Seu pedido para entrar na comunidade foi enviado!");
             }
         }
         if (!sent) {
-            System.out.println("Comunidade não encontrada!");
+            Graphics.failure("Comunidade não encontrada!");
         }
     }
 }

@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Profile {
     public String hobbie;
@@ -36,10 +37,8 @@ public class Profile {
         Scanner input = new Scanner(System.in);
         while (true)
         {
-            System.out.println("\nQual campo deseja alterar?\n");
-            System.out.println("[1] Hobbie");
-            System.out.println("[2] Idade");
-            System.out.println("[3] Local");
+            ArrayList<String> options = Database.editOptions("Profile");
+            Graphics.printOptions(options, "Escolha o campo que deseja editar");
             System.out.println("[99] Sair da edição");
             
             choice = input.nextInt();

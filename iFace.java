@@ -1,6 +1,9 @@
+import java.util.ArrayList;
+
 public class iFace {
     public static void main(String[] args) {
-        User fulano = new User("Fulano de Tal", "fufu", "123456");
-        fulano.printUserInfo();
+        ArrayList<String> options = new ArrayList<String>();
+        options.add("PESSOA");
+        options.remove("TESTE");
     }
 }

@@ -80,20 +80,20 @@ public class User {
             for (User u : users) {
                 // Removendo mensagens
                 for (Message m : u.msgs) {
-                    if (m.getSender().equals(this.nickname)) {
+                    if (m.getSender().equalsIgnoreCase(this.nickname)) {
                         msgs.remove(m);
                     }
                 }
                 // Removendo relacionamentos
                 for (User f : u.friends) {
-                    if (f.nickname.equals(this.nickname)) {
+                    if (f.nickname.equalsIgnoreCase(this.nickname)) {
                         friends.remove(f);
                     }
                 }
             }
             // Removendo comunidade
             String c = this.community.deleteUser(this);
-            if (c.equals("deleted")) {
+            if (c.equalsIgnoreCase("deleted")) {
                 for (User u : users) {
                     if (u.community != null) {
                         if (u.community.name.equals(this.community.name)) {
@@ -118,10 +118,10 @@ public class User {
         if (u != null)
         {
             u.requests.add(this);
-            System.out.println("Solicitação enviada!");
+            Graphics.success("Solicitação enviada!");
         }
         else
-        System.out.println("Usuário não encontrado!");
+        Graphics.failure("Usuário não encontrado!");
     }
     
     public void updateFriendList()
@@ -163,10 +163,10 @@ public class User {
             u.friends.add(this);
             this.friends.add(u);
             this.requests.remove(u);
-            System.out.println("Amigo adicionado!");
+            Graphics.success("Amigo adicionado!");
         }
         else
-            System.out.println("Erro ao adicionar amigo!");
+        Graphics.failure("Erro ao adicionar amigo!");
     }
 
     // Funções de mensagem
@@ -176,20 +176,20 @@ public class User {
         if (u != null) {
             Message msg = Message.sendMessage(this.nickname);
             u.msgs.add(msg);
-            System.out.println("Mensagem enviada!");
+            Graphics.success("Mensagem enviada!");
         }
         else
-            System.out.println("Usuário não encontrado!");
+            Graphics.failure("Usuário não encontrado!");
     }
     public void newMessage()
     {
         if (this.community != null) {
             Message msg = Message.sendMessage(this.nickname);
             this.community.msgs.add(msg);
-            System.out.println("Mensagem enviada!");
+            Graphics.success("Mensagem enviada!");
         }
         else
-            System.out.println("Você não possui uma comunidade!");
+            Graphics.failure("Você não possui uma comunidade!");
     }
     public void showMessages()
     {
@@ -201,7 +201,7 @@ public class User {
             }
         }
         else
-            System.out.println("Você não tem mensagens");
+            Graphics.failure("Você não tem mensagens");
     }
 
     // Funções de comunidade
@@ -229,7 +229,7 @@ public class User {
     {
         for (User u: users)
         {
-            if (nickname.equals(u.nickname))
+            if (nickname.equalsIgnoreCase(u.nickname))
             {
                 return u;
             }
@@ -252,7 +252,7 @@ public class User {
 
             if (getUser(nickname) == null)
                 break;
-            System.out.println("Apelido já existe, tente novamente!\n");
+            Graphics.failure("Apelido já existe, tente novamente!\n");
         }
 
         User u = new User(nickname, login, password);
@@ -270,14 +270,14 @@ public class User {
         
         for (User u: users)
         {
-            if (login.equals(u.login) && password.equals(u.password))
+            if (login.equalsIgnoreCase(u.login) && password.equals(u.password))
             {
-                System.out.println("Logado com sucesso!\n");
+                Graphics.success("Logado com sucesso!\n");
                 return u;
             }
         }
         
-        System.out.println("Falha no login!\n");
+        Graphics.failure("Falha no login!\n");
         return null;
     }
 
@@ -296,7 +296,7 @@ public class User {
                 System.out.println("------------------------------");
             }
             else
-            System.out.println("Usuário não encontrado!");
+            Graphics.failure("Usuário não encontrado!");
             
             System.out.println("[1] Continuar buscando\n[2] Sair\n");
             int choice = input.nextInt();
