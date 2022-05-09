@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class User implements Friend, Constants {
     // Usuário
@@ -81,17 +82,15 @@ public class User implements Friend, Constants {
         if (choice == 1) {
             for (User u : users) {
                 // Removendo mensagens
-                for (Message m : u.msgs) {
-                    if (m.getSender().equalsIgnoreCase(this.nickname)) {
-                        msgs.remove(m);
-                    }
+                Iterator<Message> itr = u.msgs.iterator(); 
+                while (itr.hasNext()) { 
+                    Message m = itr.next(); 
+                    if (m.getSender().equalsIgnoreCase(this.nickname)) { 
+                        itr.remove(); 
+                    } 
                 }
                 // Removendo relacionamentos
-                for (User f : u.friends) {
-                    if (f.nickname.equalsIgnoreCase(this.nickname)) {
-                        friends.remove(f);
-                    }
-                }
+                u.friends.remove(this);
             }
             // Removendo comunidade
             if (this.community != null) {
@@ -132,7 +131,7 @@ public class User implements Friend, Constants {
     public void updateFriendList()
     {
         System.out.println(BLUE+"---------------------------------------------------------------------------"+RESET);
-        System.out.println(PURPLE+"Você tem " + requests.size() + " solicitações\n"+RESET);
+        System.out.println(PURPLE+"Você tem " + requests.size() + " solicitações"+RESET);
         System.out.println(BLUE+"---------------------------------------------------------------------------"+RESET);
 
         int choice;

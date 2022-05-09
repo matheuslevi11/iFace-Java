@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Community {
     public String name;
@@ -136,11 +137,15 @@ public class Community {
             newOwner = this.owner.nickname;
         }
         this.members.remove(u);
-        for (Message m : msgs) {
-            if (m.getSender().equalsIgnoreCase(u.nickname)) {
-                msgs.remove(m);
-            }
+        
+        Iterator<Message> itr = msgs.iterator(); 
+        while (itr.hasNext()) { 
+            Message m = itr.next(); 
+            if (m.getSender().equalsIgnoreCase(u.nickname)) { 
+                itr.remove(); 
+            } 
         }
+
         if (newOwner.equalsIgnoreCase("deleted")) {
             communities.remove(this);
         }
