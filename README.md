@@ -2,6 +2,12 @@
 
 Implementação de um sistema de rede social em Java
 
+## Instruções de execução
+Execute a classe Menu para iniciar a aplicação.
+## Diagrama de classes
+
+<img src="https://github.com/matheuslevi11/iFace-Java/blob/main/Assets/diagrama.png">
+
 ## Funcionalidades Implementadas até 19:00
 
 ### 1. Criação de Conta
