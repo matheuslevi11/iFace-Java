@@ -5,5 +5,6 @@ public class iFace {
         ArrayList<String> options = new ArrayList<String>();
         options.add("PESSOA");
         options.remove("TESTE");
+        System.out.println("Amantes de Academia".equalsIgnoreCase("Amantes de Academia"));
     }
 }

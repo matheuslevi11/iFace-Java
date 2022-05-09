@@ -117,7 +117,7 @@ public class Menu {
                     u = null;
             }
             else if (choice == 3){
-                System.out.println("[1] Criar uma comunidade");
+                System.out.println("\n[1] Criar uma comunidade");
                 System.out.println("[2] Entrar numa comunidade");
                 choice = input.nextInt();
                 if (choice == 1)
@@ -129,7 +129,7 @@ public class Menu {
                 edit_submenu(u);
             else if (choice == 5)
             {
-                System.out.println("Digite o nome do amigo que deseja adicionar:");
+                System.out.println("\nDigite o nome do amigo que deseja adicionar:");
                 String nickname = input.next().trim();
                 u.friendRequest(nickname);
             }

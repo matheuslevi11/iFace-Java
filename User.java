@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Friend, Constants {
     // Usuário
     public String nickname;
     private String login;
@@ -28,7 +28,7 @@ public class User {
     // Funções de visualização
     public void printUserInfo()
     {
-        System.out.println("Apelido: " + this.nickname);
+        System.out.println(BLUE+"Apelido: " + this.nickname+RESET);
         
         String[] atributes = this.profile.getProfileInfo();
         System.out.println("Hobbie: " + atributes[0]);
@@ -41,12 +41,14 @@ public class User {
             System.out.println("Comunidade: " + this.community.name);
         }
     }
-    
+
+    @Override
     public void showFriends()
     {
-        System.out.println("Seus amigos:\n");
-        for (User u : friends)
-        {
+        System.out.println(BLUE+"---------------------------------------------------------------------------"+RESET);
+        System.out.println(PURPLE+"Seus amigos:"+RESET);
+        System.out.println(BLUE+"---------------------------------------------------------------------------"+RESET);
+        for (User u : friends) {
             System.out.println(u.nickname);
         }
     }
@@ -92,42 +94,47 @@ public class User {
                 }
             }
             // Removendo comunidade
-            String c = this.community.deleteUser(this);
-            if (c.equalsIgnoreCase("deleted")) {
-                for (User u : users) {
-                    if (u.community != null) {
-                        if (u.community.name.equals(this.community.name)) {
-                            u.community = null;
+            if (this.community != null) {
+                String c = this.community.deleteUser(this);
+                if (c.equalsIgnoreCase("deleted")) {
+                    for (User u : users) {
+                        if (u.community != null) {
+                            if (u.community.name.equals(this.community.name)) {
+                                u.community = null;
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                User newOwner = getUser(c);
-                this.community.setOwner(newOwner);
+                else
+                {
+                    User newOwner = getUser(c);
+                    this.community.setOwner(newOwner);
+                }
             }
             this.profile = null;
             users.remove(this);
         }
     }
     // Funções de amizade
+    @Override
     public void friendRequest(String nickname)
     {
         User u = getUser(nickname);
         if (u != null)
         {
             u.requests.add(this);
-            Graphics.success("Solicitação enviada!");
+            Graphics.success("Solicitação enviada!\n");
         }
         else
-        Graphics.failure("Usuário não encontrado!");
+        Graphics.failure("Usuário não encontrado!\n");
     }
-    
+    @Override
     public void updateFriendList()
     {
-        System.out.println("---------------------------------------------");
-        System.out.println("Você tem " + requests.size() + " solicitações\n");
+        System.out.println(BLUE+"---------------------------------------------------------------------------"+RESET);
+        System.out.println(PURPLE+"Você tem " + requests.size() + " solicitações\n"+RESET);
+        System.out.println(BLUE+"---------------------------------------------------------------------------"+RESET);
+
         int choice;
         Scanner input = new Scanner(System.in);
         if (requests.size() > 0)
@@ -152,9 +159,8 @@ public class User {
                 }
             }
         }
-        System.out.println("---------------------------------------------");
     }
-
+    @Override
     public void addFriend(String newFriend)
     {
         User u = getUser(newFriend);
@@ -195,7 +201,7 @@ public class User {
     {
         if (msgs.size() > 0)
         {
-            System.out.println("Suas mensagens:\n");
+            System.out.println(PURPLE+"Suas mensagens:\n"+RESET);
             for (Message m : msgs) {
                 System.out.println(m.getDate() + " " + m.getSender() + ": " + m.getContent());
             }
@@ -215,9 +221,10 @@ public class User {
     }
     public void enterCommunity()
     {
-        Scanner input = new Scanner(System.in);
+        Scanner messageReceiver = new Scanner(System.in);
+        messageReceiver.useDelimiter("\n");
         System.out.println("Digite o nome da comunidade que deseja entrar:");
-        String name = input.next();
+        String name = messageReceiver.next();
         Community.enterCommunity(name, this);
     }
     public void enterCommunity(Community c)
@@ -270,7 +277,7 @@ public class User {
         
         for (User u: users)
         {
-            if (login.equalsIgnoreCase(u.login) && password.equals(u.password))
+            if (login.equals(u.login) && password.equals(u.password))
             {
                 Graphics.success("Logado com sucesso!\n");
                 return u;

@@ -132,7 +132,9 @@ public class Community {
                 }
             }
         }
-
+        else {
+            newOwner = this.owner.nickname;
+        }
         this.members.remove(u);
         for (Message m : msgs) {
             if (m.getSender().equalsIgnoreCase(u.nickname)) {
@@ -170,7 +172,7 @@ public class Community {
             if (c.name.equalsIgnoreCase(name)) {
                 sent = true;
                 c.requests.add(u);
-                System.out.println("Seu pedido para entrar na comunidade foi enviado!");
+                Graphics.success("Seu pedido para entrar na comunidade foi enviado!");
             }
         }
         if (!sent) {
