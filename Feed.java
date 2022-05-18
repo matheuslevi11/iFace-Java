@@ -10,7 +10,7 @@ public class Feed {
         Message m = Message.sendMessage(sender.nickname);
         ArrayList<String> options = Database.feedOptions();
         Graphics.printOptions(options, "Como deseja publicar?");
-        int restricted = input.nextInt();
+        int restricted = iFace.readIntegerField(input, 1, 2, false);
         for (User u : users) {
             if (restricted != 1) {
                 u.feed.msgs.add(m);
