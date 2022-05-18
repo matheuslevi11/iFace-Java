@@ -63,7 +63,7 @@ public class Community {
                 }
                 System.out.println("\n[1] Aceitar Solicitação");
                 System.out.println("[2] Sair");
-                choice = input.nextInt();
+                choice = iFace.readIntegerField(input, 1, 2, false);
                 if (choice == 1)
                 {
                     System.out.println("Digite o nome do usuario que deseja aceitar");
@@ -100,7 +100,7 @@ public class Community {
             System.out.println("[2] Ver novas solicitações de membros");
             System.out.println("[99] Voltar para a aba da comunidade");
             
-            choice = input.nextInt();
+            choice = iFace.readIntegerField(input, 1, 2, true);
 
             if (choice == 1)
             {
@@ -125,7 +125,7 @@ public class Community {
                 System.out.println("[1] Apagar a comunidade " + this.name);
                 System.out.println("[2] Transferir posse");
                 Scanner input = new Scanner(System.in);
-                int choice = input.nextInt();
+                int choice = iFace.readIntegerField(input, 1, 2, false);
                 if (choice == 2) {
                     showMembers();
                     System.out.println("Para quem você deseja transferir?");

@@ -78,7 +78,7 @@ public class User implements Friend, Constants {
         Scanner input = new Scanner(System.in);
         System.out.println("Você tem certeza que deseja deletar seu usuário?");
         System.out.println("[1] Sim\n[2] Não");
-        int choice = input.nextInt();
+        int choice = iFace.readIntegerField(input, 1, 2, false);
         if (choice == 1) {
             for (User u : users) {
                 // Removendo mensagens
@@ -146,7 +146,7 @@ public class User implements Friend, Constants {
                 }
                 System.out.println("[1] Aceitar Solicitação");
                 System.out.println("[2] Sair");
-                choice = input.nextInt();
+                choice = iFace.readIntegerField(input, 1, 2, false);
                 if (choice == 1)
                 {
                     System.out.println("Digite o nome do usuario que deseja aceitar");
@@ -305,7 +305,7 @@ public class User implements Friend, Constants {
             Graphics.failure("Usuário não encontrado!");
             
             System.out.println("[1] Continuar buscando\n[2] Sair\n");
-            int choice = input.nextInt();
+            int choice = iFace.readIntegerField(input, 1, 2, false);
             if (choice == 2) {
                 break;
             }

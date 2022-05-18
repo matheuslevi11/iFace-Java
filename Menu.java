@@ -13,7 +13,7 @@ public class Menu {
             Graphics.printOptions(options, "Escolha o campo que deseja editar");
             System.out.println("[99] Sair da edição");
             
-            choice = input.nextInt();
+            choice = iFace.readIntegerField(input, 1, options.size(), true);
 
             if (choice == 1)
             {
@@ -59,7 +59,7 @@ public class Menu {
             Graphics.printOptions(options, "O que deseja fazer?");
             System.out.println("[99] Sair da aba de comunidade");
             
-            choice = input.nextInt();
+            choice = iFace.readIntegerField(input, 1, options.size(), true);
 
             if (choice == 1)
             {
@@ -122,7 +122,7 @@ public class Menu {
             else if (choice == 3){
                 System.out.println("\n[1] Criar uma comunidade");
                 System.out.println("[2] Entrar numa comunidade");
-                choice = iFace.readIntegerField(input, 1, 2, true);
+                choice = iFace.readIntegerField(input, 1, 2, false);
                 if (choice == 1)
                     u.newCommunity();
                 else
@@ -144,7 +144,7 @@ public class Menu {
             {
                 ArrayList<String> options = Database.messageOptions();
                 Graphics.printOptions(options, "Como deseja enviar?");
-                choice = input.nextInt();
+                choice = iFace.readIntegerField(input, 1, options.size(), false);
                 if (choice == 1) {
                     System.out.println("Para quem deseja enviar uma mensagem?");
                     String receiver = input.next();

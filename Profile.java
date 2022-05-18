@@ -41,7 +41,7 @@ public class Profile {
             Graphics.printOptions(options, "Escolha o campo que deseja editar");
             System.out.println("[99] Sair da edição");
             
-            choice = input.nextInt();
+            choice = iFace.readIntegerField(input, 1, options.size(), true);
 
             if (choice == 1)
             {
