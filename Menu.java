@@ -88,6 +88,7 @@ public class Menu {
         
         while (true)
         {
+            int num_options = 0;
             try{
                 Thread.sleep(800);
             }
@@ -96,15 +97,17 @@ public class Menu {
             }
             if (u == null) {
                 ArrayList<String> options = Database.logoutOptions();
+                num_options += options.size();
                 Graphics.printOptions(options, "Você não está logado no iFace, o que deseja?");
             }
             else {
                 ArrayList<String> options = Database.mainMenuOptions();
+                num_options += options.size();
                 Graphics.printOptions(options, "Olá " + u.nickname + ", o que deseja?");
             }
             System.out.println("[99] Encerrar iFace");
             
-            choice = input.nextInt();
+            choice = iFace.readIntegerField(input, 1, num_options, true);
             
             if (choice == 1){
                 u = User.createUser();
@@ -119,7 +122,7 @@ public class Menu {
             else if (choice == 3){
                 System.out.println("\n[1] Criar uma comunidade");
                 System.out.println("[2] Entrar numa comunidade");
-                choice = input.nextInt();
+                choice = iFace.readIntegerField(input, 1, 2, true);
                 if (choice == 1)
                     u.newCommunity();
                 else

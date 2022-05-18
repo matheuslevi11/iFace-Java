@@ -24,7 +24,7 @@ public class Profile {
         System.out.println("Digite o seu hobbie:");
         String hobbie = input.next().trim();
         System.out.println("Digite a sua idade:");
-        int idade = input.nextInt();
+        int idade = iFace.readIntegerField(input, 0, 120, false);
         System.out.println("Digite o seu local:");
         String local = input.next().trim();
         
