@@ -13,7 +13,7 @@ public class iFace {
             try {
                 field = input.nextInt();
                 if (field < min || field > max) {
-                    if (!isMenu) throw new InputMismatchException("Este número não está em um intervalo adequado."); 
+                    if (!isMenu) throw new InputMismatchException("Valor inválido."); 
                     else if (field != 99)
                         throw new InputMismatchException("Opção inválida."); 
                 }
@@ -36,6 +36,9 @@ public class iFace {
         {
             try {
                 field = input.next().trim();
+                if (field.isEmpty()) {
+                    throw new NoSuchElementException("Campo não pode estar vazio!");
+                }
                 break;
             } catch (NoSuchElementException e) {
                 if (e.getMessage() != null)

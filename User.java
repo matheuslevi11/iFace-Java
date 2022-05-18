@@ -243,23 +243,41 @@ public class User implements Friend, Constants {
         return null;
     }
 
+    public static String readNickname(Scanner input, Boolean search) {
+        Boolean read = false;
+        String nickname = "";
+        while (!read)
+        {
+            try {
+                nickname = input.next().trim();
+                if (nickname.isEmpty()) {
+                    throw new Exception("Nome de usuário não pode estar vazio!");
+                }
+                if (getUser(nickname) == null)
+                {
+                    if (search) throw new Exception("Nome de usuário não encontrado!");
+                }
+                else if (!search) throw new Exception("Nome de usuário já existe!");
+                break;
+            } catch (Exception e) {
+                if (e.getMessage() != null)
+                    Graphics.failure(e.getMessage());
+                input.next();
+            }
+        }
+        return nickname;
+    }
+
     public static User createUser() {    
         Scanner input = new Scanner(System.in);
         String nickname; String login; String password;
 
-        while (true)
-        {
-            System.out.println("Digite o seu Apelido:");
-            nickname = input.next().trim();
-            System.out.println("Digite o seu Login:");
-            login = input.next().trim();
-            System.out.println("Digite a sua Senha:");
-            password = input.next().trim();
-
-            if (getUser(nickname) == null)
-                break;
-            Graphics.failure("Apelido já existe, tente novamente!\n");
-        }
+        System.out.println("Digite o seu Apelido:");
+        nickname = readNickname(input, false);
+        System.out.println("Digite o seu Login:");
+        login = input.next().trim();
+        System.out.println("Digite a sua Senha:");
+        password = input.next().trim();
 
         User u = new User(nickname, login, password);
         u.profile = Profile.createProfile();
@@ -293,16 +311,11 @@ public class User implements Friend, Constants {
             Scanner input = new Scanner(System.in);
             
             System.out.println("Digite o nome de um usuário:\n");
-            String nick = input.next();
+            String nickname = readNickname(input, true);
             System.out.println("------------------------------");
-            User u = getUser(nick);
-            if (u != null)
-            {
-                u.printUserInfo();
-                System.out.println("------------------------------");
-            }
-            else
-            Graphics.failure("Usuário não encontrado!");
+            User u = getUser(nickname);
+            u.printUserInfo();
+            System.out.println("------------------------------");
             
             System.out.println("[1] Continuar buscando\n[2] Sair\n");
             int choice = iFace.readIntegerField(input, 1, 2, false);
