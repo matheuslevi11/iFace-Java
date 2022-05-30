@@ -116,16 +116,18 @@ public class User implements Friend, Constants {
     }
     // Funções de amizade
     @Override
-    public void friendRequest(String nickname)
+    public boolean friendRequest(String nickname)
     {
         User u = getUser(nickname);
         if (u != null)
         {
             u.requests.add(this);
             Graphics.success("Solicitação enviada!\n");
+            return true;
         }
         else
-        Graphics.failure("Usuário não encontrado!\n");
+            Graphics.failure("Usuário não encontrado!\n");
+        return false;
     }
     @Override
     public void updateFriendList()
@@ -175,16 +177,19 @@ public class User implements Friend, Constants {
     }
 
     // Funções de mensagem
-    public void newMessage(String receiver)
+    public boolean newMessage(String receiver)
     {
         User u = getUser(receiver);
+
         if (u != null) {
             Message msg = Message.sendMessage(this.nickname);
             u.msgs.add(msg);
             Graphics.success("Mensagem enviada!");
+            return true;
         }
         else
             Graphics.failure("Usuário não encontrado!");
+        return false;
     }
     public void newMessage()
     {

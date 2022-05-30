@@ -132,9 +132,12 @@ public class Menu {
                 edit_submenu(u);
             else if (choice == 5)
             {
-                System.out.println("\nDigite o nome do amigo que deseja adicionar:");
-                String nickname = input.next().trim();
-                u.friendRequest(nickname);
+                boolean requested = false;
+                while(!requested) {
+                    System.out.println("\nDigite o nome do amigo que deseja adicionar:");
+                    String nickname = input.next().trim();
+                    requested = u.friendRequest(nickname);
+                }
             }
             else if (choice == 6)
                 u.updateFriendList();
@@ -146,9 +149,18 @@ public class Menu {
                 Graphics.printOptions(options, "Como deseja enviar?");
                 choice = iFace.readIntegerField(input, 1, options.size(), false);
                 if (choice == 1) {
-                    System.out.println("Para quem deseja enviar uma mensagem?");
-                    String receiver = input.next();
-                    u.newMessage(receiver);
+                        System.out.println("Para quem deseja enviar uma mensagem?");
+                        String receiver = input.next();
+                        try{
+                            if (!u.newMessage(receiver))
+                            {
+                                throw new UserNotFoundException();
+                            }
+                        }
+                        catch (UserNotFoundException unf)
+                        {
+                            System.out.println("Tente novamente");
+                        }
                 }
                 else if (choice == 2)
                     u.newMessage();

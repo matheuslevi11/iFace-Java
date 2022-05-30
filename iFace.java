@@ -23,8 +23,8 @@ public class iFace {
                     Graphics.failure("Entrada inválida! " + e.getMessage() + " Tente novamente.");
                 else
                     Graphics.failure("Entrada inválida! Você não digitou um número. Tente novamente.");
-                input.next();
-            }
+                }
+            input.next();
         }
         return field;
     }
