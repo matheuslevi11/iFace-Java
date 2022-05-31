@@ -1,5 +1,9 @@
 import java.util.Scanner;
+
+import javax.naming.NameNotFoundException;
+
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 
 public class Community {
@@ -155,7 +159,6 @@ public class Community {
 
     public static Community createCommunity(User owner)
     {
-        Scanner input = new Scanner(System.in);
         Scanner messageReceiver = new Scanner(System.in);
         messageReceiver.useDelimiter("\n");
         
@@ -170,7 +173,7 @@ public class Community {
         return com;
     }
 
-    public static void enterCommunity(String name, User u)
+    public static void enterCommunity(String name, User u) throws NameNotFoundException
     {
         boolean sent = false;
         for (Community c : communities) {
@@ -182,6 +185,7 @@ public class Community {
         }
         if (!sent) {
             Graphics.failure("Comunidade não encontrada!");
+            throw new NameNotFoundException();
         }
     }
 }

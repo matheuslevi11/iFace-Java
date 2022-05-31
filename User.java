@@ -1,4 +1,7 @@
 import java.util.Scanner;
+
+import javax.naming.NameNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -229,7 +232,15 @@ public class User implements Friend, Constants {
         messageReceiver.useDelimiter("\n");
         System.out.println("Digite o nome da comunidade que deseja entrar:");
         String name = messageReceiver.next();
-        Community.enterCommunity(name, this);
+        try {
+            Community.enterCommunity(name, this);
+        }
+        catch(NameNotFoundException nnf) {
+            System.out.println("Digite 1 se deseja tentar novamente:");
+            int choice = iFace.readIntegerField(messageReceiver, 1, 100, false);
+            if (choice == 1)
+                enterCommunity();
+        }
     }
     public void enterCommunity(Community c)
     {
@@ -267,8 +278,8 @@ public class User implements Friend, Constants {
             } catch (Exception e) {
                 if (e.getMessage() != null)
                     Graphics.failure(e.getMessage());
-                input.next();
-            }
+                }
+            input.next();
         }
         return nickname;
     }
