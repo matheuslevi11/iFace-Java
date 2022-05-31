@@ -155,7 +155,7 @@ public class User implements Friend, Constants {
                 if (choice == 1)
                 {
                     System.out.println("Digite o nome do usuario que deseja aceitar");
-                    String newFriend = input.next();
+                    String newFriend = iFace.readStringField(input);
                     this.addFriend(newFriend);
                 }
                 else {
@@ -279,7 +279,7 @@ public class User implements Friend, Constants {
                 if (e.getMessage() != null)
                     Graphics.failure(e.getMessage());
                 }
-            input.next();
+            input.nextLine();
         }
         return nickname;
     }
@@ -291,9 +291,9 @@ public class User implements Friend, Constants {
         System.out.println("Digite o seu Apelido:");
         nickname = readNickname(input, false);
         System.out.println("Digite o seu Login:");
-        login = input.next().trim();
+        login = iFace.readStringField(input);
         System.out.println("Digite a sua Senha:");
-        password = input.next().trim();
+        password = iFace.readStringField(input);
 
         User u = new User(nickname, login, password);
         u.profile = Profile.createProfile();
@@ -304,9 +304,9 @@ public class User implements Friend, Constants {
     public static User login() {
         Scanner input = new Scanner(System.in);
         System.out.println("Digite o seu Login:");
-        String login = input.nextLine().trim();
+        String login = iFace.readStringField(input);
         System.out.println("Digite a sua Senha:");
-        String password = input.nextLine().trim();
+        String password = iFace.readStringField(input);
         
         for (User u: users)
         {

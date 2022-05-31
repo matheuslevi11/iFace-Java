@@ -18,19 +18,19 @@ public class Menu {
             if (choice == 1)
             {
                 System.out.println("Digite o novo apelido:");
-                String nickname = input.next().trim();
+                String nickname = User.readNickname(input, false);
                 u.editNickname(nickname);
             }
             else if (choice == 2)
             {
                 System.out.println("Digite o novo login:");
-                String login = input.next().trim();
+                String login = iFace.readStringField(input);
                 u.editLogin(login);
             }
             else if (choice == 3)
             {
                 System.out.println("Digite a nova senha:");
-                String password = input.next().trim();
+                String password = iFace.readStringField(input);
                 u.editPassword(password);
             }
             else if (choice == 4)
@@ -135,7 +135,7 @@ public class Menu {
                 boolean requested = false;
                 while(!requested) {
                     System.out.println("\nDigite o nome do amigo que deseja adicionar:");
-                    String nickname = input.next().trim();
+                    String nickname = iFace.readStringField(input);
                     requested = u.friendRequest(nickname);
                 }
             }

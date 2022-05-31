@@ -71,7 +71,7 @@ public class Community {
                 if (choice == 1)
                 {
                     System.out.println("Digite o nome do usuario que deseja aceitar");
-                    String newMember = input.next();
+                    String newMember = User.readNickname(input, true);
                     User addedUser = null;
                     for (User u : requests) {
                         if (u.nickname.equalsIgnoreCase(newMember))
@@ -133,7 +133,7 @@ public class Community {
                 if (choice == 2) {
                     showMembers();
                     System.out.println("Para quem você deseja transferir?");
-                    newOwner = input.next();
+                    newOwner = User.readNickname(input, true);
                 }
             }
         }

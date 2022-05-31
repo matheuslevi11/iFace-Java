@@ -22,11 +22,11 @@ public class Profile {
     public static Profile createProfile() {
         Scanner input = new Scanner(System.in);
         System.out.println("Digite o seu hobbie:");
-        String hobbie = input.next().trim();
+        String hobbie = iFace.readStringField(input);
         System.out.println("Digite a sua idade:");
         int idade = iFace.readIntegerField(input, 1, 120, false);
         System.out.println("Digite o seu local:");
-        String local = input.next().trim();
+        String local = iFace.readStringField(input);
         
         Profile p = new Profile(hobbie, idade, local);
         return p;
@@ -46,7 +46,7 @@ public class Profile {
             if (choice == 1)
             {
                 System.out.println("Digite o novo hobbie:");
-                String hobbie = input.next().trim();
+                String hobbie = iFace.readStringField(input);
                 this.hobbie = hobbie;
             }
             if (choice == 2)
@@ -58,7 +58,7 @@ public class Profile {
             else if (choice == 3)
             {
                 System.out.println("Digite o novo local:");
-                String local = input.next().trim();
+                String local = iFace.readStringField(input);
                 this.local = local;
             }
             else if (choice == 99)     
