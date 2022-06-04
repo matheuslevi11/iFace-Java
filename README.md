@@ -8,59 +8,45 @@ Execute a classe Menu para iniciar a aplicação.
 
 <img src="https://github.com/matheuslevi11/iFace-Java/blob/main/Assets/diagrama.png">
 
-## Funcionalidades Implementadas até 19:00
+## Code Smells Encontrados no código
 
-### 1. Criação de Conta
-Permita a um usuário criar uma conta no iFace.
-Deve ser fornecido um login, uma senha e um nome
-com o qual o usuário será conhecido na rede.
+### Long Method 
 
-### 2. Criação/Edição de Perfil
-Permita a um usuário cadastrado do iFace criar/
-editar atributos de seu perfil. Ele deve poder
-modificar qualquer atributo do perfil ou preencher
-um atributo inexistente.
+Os seguintes métodos são mais complicados do que a maioria e possuem muitas linhas
 
-### 3. Adição de Amigos
-Permita a um usuário cadastrado do iFace adicionar
-outro usuário como amigo, o que faz o sistema
-enviar-lhe um convite. O relacionamento só é
-efetivado quando o outro usuário o adicionar de
-volta
+- User.deleteUser(User u)
+- Menu.menu()
 
-## Funcionalidades Implementadas após 19:00
+### Long Class
 
-### 4. Envio de Mensagens
-Permita a um usuário cadastrado do iFace enviar
-um recado a qualquer outro usuário cadastrado ou
-comunidade.
+As seguintes classes são mais complicadas do que a maioria e possuem muito código.
 
-### 5. Criação de Comunidades
-Permita a um usuário cadastrado do iFace criar uma
-comunidade. Deve ser fornecido um nome e uma
-descrição. O usuário passa a ser o dono da
-comunidade e é o responsável por gerenciar os
-membros.
+- User
+- Menu
 
-### 6. Adição de membros
-Permita a um usuário cadastrado do iFace se tornar
-membro de uma comunidade.
+### Primitive Obsession
 
-### 7. Recuperar Informações sobre um determinado Usuário
-Permita a um usuário cadastrado do iFace recuperar
-informações sobre o seu perfil, comunidades,
-amigos e mensagens.
+Na função abaixo, foi utilizado uma string onde poderia ter sido usado um objeto.
 
-### 8. Remoção de Conta
-Permita a um usuário encerrar sua conta no iFace.
-Todas as suas informações devem sumir do sistema:
-relacionamentos, mensagens enviadas, perfil.
+- Community.deleteUser(User u)
 
-### 9. Envio de Mensagens no Feed de Notícias
-Permita a um usuário enviar mensagens no Feed de
-notícias
+### Long Parameter List
 
-### 10. Controle de visualização do Feed de Notícias
-Permita a um usuário definir o controle de
-visualização das mensagens do Feed (somente
-amigos ou todos podem visualizar as mensagens)
+- iFace.readIntegerField(Scanner input, int min, int max, Boolean isMenu)
+
+### Switch Statements
+
+Todas as funções de menu possuem vários if seguidos com as opções de escolha
+
+### Shotgun Surgery
+
+As funções da classe iFace são usadas em todo o código, por isso teriam de ser alteradas
+em diversos lugares em caso de mudança
+
+### Data Class
+
+- Database
+
+### Speculative Generality
+
+- interface Friend
