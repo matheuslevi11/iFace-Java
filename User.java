@@ -5,7 +5,7 @@ import javax.naming.NameNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class User implements Friend, Constants {
+public class User implements Friend, Constants, Submenu {
     // Usuário
     public String nickname;
     private String login;
@@ -16,7 +16,7 @@ public class User implements Friend, Constants {
     // Outros objetos
     public Profile profile;
     public ArrayList<Message> msgs = new ArrayList<Message>();
-    private Community community = null;
+    public Community community = null;
     public Feed feed = new Feed();
     // Variáveis estáticas
     public static ArrayList<User> users = new ArrayList<User>();
@@ -76,6 +76,43 @@ public class User implements Friend, Constants {
             this.password = password;
     }
 
+    private void deleteFriends()
+    {
+        for (User u : users) {
+            // Removendo mensagens
+            Iterator<Message> itr = u.msgs.iterator(); 
+            while (itr.hasNext()) { 
+                Message m = itr.next(); 
+                if (m.getSender().equalsIgnoreCase(this.nickname)) { 
+                    itr.remove(); 
+                } 
+            }
+            // Removendo relacionamentos
+            u.friends.remove(this);
+        }
+    }
+
+    private void deleteCommunity()
+    {
+        if (this.community != null) {
+            String c = this.community.deleteUser(this);
+            if (c.equalsIgnoreCase("deleted")) {
+                for (User u : users) {
+                    if (u.community != null) {
+                        if (u.community.name.equals(this.community.name)) {
+                            u.community = null;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                User newOwner = getUser(c);
+                this.community.setOwner(newOwner);
+            }
+        }
+    }
+
     public void deleteUser()
     {
         Scanner input = new Scanner(System.in);
@@ -83,36 +120,9 @@ public class User implements Friend, Constants {
         System.out.println("[1] Sim\n[2] Não");
         int choice = iFace.readIntegerField(input, 1, 2, false);
         if (choice == 1) {
-            for (User u : users) {
-                // Removendo mensagens
-                Iterator<Message> itr = u.msgs.iterator(); 
-                while (itr.hasNext()) { 
-                    Message m = itr.next(); 
-                    if (m.getSender().equalsIgnoreCase(this.nickname)) { 
-                        itr.remove(); 
-                    } 
-                }
-                // Removendo relacionamentos
-                u.friends.remove(this);
-            }
+            this.deleteFriends();
             // Removendo comunidade
-            if (this.community != null) {
-                String c = this.community.deleteUser(this);
-                if (c.equalsIgnoreCase("deleted")) {
-                    for (User u : users) {
-                        if (u.community != null) {
-                            if (u.community.name.equals(this.community.name)) {
-                                u.community = null;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    User newOwner = getUser(c);
-                    this.community.setOwner(newOwner);
-                }
-            }
+            this.deleteCommunity();
             this.profile = null;
             users.remove(this);
         }
@@ -122,15 +132,16 @@ public class User implements Friend, Constants {
     public boolean friendRequest(String nickname)
     {
         User u = getUser(nickname);
-        if (u != null)
+        if (u instanceof NullUserObject)
         {
+            Graphics.failure("Usuário não encontrado!\n");
+            return false;
+        }
+        else {
             u.requests.add(this);
             Graphics.success("Solicitação enviada!\n");
             return true;
         }
-        else
-            Graphics.failure("Usuário não encontrado!\n");
-        return false;
     }
     @Override
     public void updateFriendList()
@@ -168,15 +179,16 @@ public class User implements Friend, Constants {
     public void addFriend(String newFriend)
     {
         User u = getUser(newFriend);
-        if (u != null)
+        if (u instanceof NullUserObject)
         {
+            Graphics.failure("O amigo que você quer adicionar não existe!");
+        }
+        else {
             u.friends.add(this);
             this.friends.add(u);
             this.requests.remove(u);
             Graphics.success("Amigo adicionado!");
         }
-        else
-        Graphics.failure("Erro ao adicionar amigo!");
     }
 
     // Funções de mensagem
@@ -184,14 +196,15 @@ public class User implements Friend, Constants {
     {
         User u = getUser(receiver);
 
-        if (u != null) {
+        if (u instanceof NullUserObject) {
+            Graphics.failure("Usuário não encontrado!");
+        }
+        else {
             Message msg = Message.sendMessage(this.nickname);
             u.msgs.add(msg);
             Graphics.success("Mensagem enviada!");
             return true;
         }
-        else
-            Graphics.failure("Usuário não encontrado!");
         return false;
     }
     public void newMessage()
@@ -256,7 +269,7 @@ public class User implements Friend, Constants {
                 return u;
             }
         }
-        return null;
+        return new NullUserObject();
     }
 
     public static String readNickname(Scanner input, Boolean search) {
@@ -344,4 +357,49 @@ public class User implements Friend, Constants {
     {
         return users;
     }
+
+
+    public void edit() 
+    {
+        int choice;
+        Scanner input = new Scanner(System.in);
+        while (true)
+        {
+            ArrayList<String> options = Database.editOptions("User");
+            Graphics.printOptions(options, "Escolha o campo que deseja editar");
+            System.out.println("[99] Sair da edição");
+            
+            choice = iFace.readIntegerField(input, 1, options.size(), true);
+
+            if (choice == 1)
+            {
+                System.out.println("Digite o novo apelido:");
+                String nickname = User.readNickname(input, false);
+                this.editNickname(nickname);
+            }
+            else if (choice == 2)
+            {
+                System.out.println("Digite o novo login:");
+                String login = iFace.readStringField(input);
+                this.editLogin(login);
+            }
+            else if (choice == 3)
+            {
+                System.out.println("Digite a nova senha:");
+                String password = iFace.readStringField(input);
+                this.editPassword(password);
+            }
+            else if (choice == 4)
+            {
+                this.profile.editProfile();
+            }
+            else if (choice == 99)
+            {
+                Graphics.success("Seus dados ficaram assim:\n");
+                this.printUserInfo();
+                break;
+            }
+        }
+    }
+
 }

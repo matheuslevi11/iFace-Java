@@ -2,81 +2,6 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Menu {
-    
-    private static void edit_submenu(User u)
-    {
-        int choice;
-        Scanner input = new Scanner(System.in);
-        while (true)
-        {
-            ArrayList<String> options = Database.editOptions("User");
-            Graphics.printOptions(options, "Escolha o campo que deseja editar");
-            System.out.println("[99] Sair da edição");
-            
-            choice = iFace.readIntegerField(input, 1, options.size(), true);
-
-            if (choice == 1)
-            {
-                System.out.println("Digite o novo apelido:");
-                String nickname = User.readNickname(input, false);
-                u.editNickname(nickname);
-            }
-            else if (choice == 2)
-            {
-                System.out.println("Digite o novo login:");
-                String login = iFace.readStringField(input);
-                u.editLogin(login);
-            }
-            else if (choice == 3)
-            {
-                System.out.println("Digite a nova senha:");
-                String password = iFace.readStringField(input);
-                u.editPassword(password);
-            }
-            else if (choice == 4)
-            {
-                u.profile.editProfile();
-            }
-            else if (choice == 99)
-            {
-                Graphics.success("Seus dados ficaram assim:\n");
-                u.printUserInfo();
-                break;
-            }
-        }
-    }
-    
-    private static void community_submenu(User u)
-    {
-        Scanner input = new Scanner(System.in);
-        int choice;
-        Community c = u.getCommunity();
-        Graphics.start(c.name, c.description);
-
-        while (true)
-        {
-            ArrayList<String> options = Database.communityOptions(c.isOwner(u));
-            Graphics.printOptions(options, "O que deseja fazer?");
-            System.out.println("[99] Sair da aba de comunidade");
-            
-            choice = iFace.readIntegerField(input, 1, options.size(), true);
-
-            if (choice == 1)
-            {
-                c.showMessages();
-            }
-            else if (choice == 2)
-            {
-                if (c.isOwner(u)) {
-                    c.ManageCommunity();
-                }
-                else
-                    Graphics.failure("Você não tem permissão para fazer isso!");
-            }
-            else if (choice == 99)
-                break;
-        }
-    }
 
     private static void menu()
     {
@@ -95,7 +20,7 @@ public class Menu {
             catch (Exception e) {
                 System.out.println(e);
             }
-            if (u == null) {
+            if (u instanceof NullUserObject) {
                 ArrayList<String> options = Database.logoutOptions();
                 num_options += options.size();
                 Graphics.printOptions(options, "Você não está logado no iFace, o que deseja?");
@@ -114,10 +39,10 @@ public class Menu {
             }
             else if (choice == 2)
             {
-                if (u == null)
+                if (u instanceof NullUserObject)
                     u = User.login();
                 else
-                    u = null;
+                    u = new NullUserObject();
             }
             else if (choice == 3){
                 System.out.println("\n[1] Criar uma comunidade");
@@ -129,7 +54,7 @@ public class Menu {
                     u.enterCommunity();
             }
             else if (choice == 4)
-                edit_submenu(u);
+                u.edit();
             else if (choice == 5)
             {
                 boolean requested = false;
@@ -174,7 +99,7 @@ public class Menu {
             else if (choice == 10)
             {
                 if (u.getCommunity() != null)
-                    community_submenu(u);
+                    u.community.edit();
                 else
                     System.out.println("Você não está em uma comunidade!");
             }
@@ -186,7 +111,7 @@ public class Menu {
             else if (choice == 13)
             {
                 u.deleteUser();
-                u = null;
+                u = new NullUserObject();
             }
             else if (choice == 99)
                 break;

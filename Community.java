@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 
-public class Community {
+public class Community implements Submenu {
     public String name;
     public String description;
     private User owner;
@@ -186,6 +186,37 @@ public class Community {
         if (!sent) {
             Graphics.failure("Comunidade não encontrada!");
             throw new NameNotFoundException();
+        }
+    }
+
+    public void edit()
+    {
+        Scanner input = new Scanner(System.in);
+        int choice;
+        Graphics.start(this.name, this.description);
+
+        while (true)
+        {
+            ArrayList<String> options = Database.communityOptions(this.isOwner(this.owner));
+            Graphics.printOptions(options, "O que deseja fazer?");
+            System.out.println("[99] Sair da aba de comunidade");
+            
+            choice = iFace.readIntegerField(input, 1, options.size(), true);
+
+            if (choice == 1)
+            {
+                this.showMessages();
+            }
+            else if (choice == 2)
+            {
+                if (this.isOwner(this.owner)) {
+                    this.ManageCommunity();
+                }
+                else
+                    Graphics.failure("Você não tem permissão para fazer isso!");
+            }
+            else if (choice == 99)
+                break;
         }
     }
 }
